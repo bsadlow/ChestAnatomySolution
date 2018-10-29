@@ -1,83 +1,66 @@
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
+import javax.swing.JTree;
+import javax.swing.tree.TreePath;
+import java.awt.BorderLayout;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 
-import javax.swing.BoxLayout;
-import javax.swing.Box;
-
-
-// For Testing
-//import javax.swing.BorderFactory; 
-//import java.awt.Color;
-//container.setBorder(BorderFactory.createLineBorder(Color.black));
-
-
-public class App{
-
-	public static void main(String[] args){
+public class App extends JFrame{
 	
-		// Frame
-		JFrame mainFrame = new JFrame("Chest Anatomy Solution");
-		mainFrame.setSize(500,400);
-		mainFrame.setResizable(true); 
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public static void main(String args[]) {
+        
+        App a = new App();
+    }
+
+	public App() {
+        
+        super("Chest Anatomy Solution");
+        setSize(500, 400);
+        getContentPane().setLayout(new BorderLayout());
+        setResizable(true); 
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		// Panel 
-		JPanel hierarchyPanel = new JPanel();
-		hierarchyPanel.setLayout(new BoxLayout(hierarchyPanel, BoxLayout.Y_AXIS));
+		final JCheckBoxTree cbt = createTree();
+		getContentPane().add(cbt);
 
-		// Test Data
-		hierarchyPanel.add(CreateListItem("Chest", 0));
-		hierarchyPanel.add(CreateListItem("Lungs", 1));
-		hierarchyPanel.add(CreateListItem("Right Lung", 2));
-		hierarchyPanel.add(CreateListItem("Superior Lobe", 3));
-		hierarchyPanel.add(CreateListItem("Middle Lobe", 3));
-		hierarchyPanel.add(CreateListItem("Inferior Lobe", 3));
-		hierarchyPanel.add(CreateListItem("Left Lung", 2));
-		hierarchyPanel.add(CreateListItem("Superior Lobe", 3));
-		hierarchyPanel.add(CreateListItem("Middle Lobe", 3));
-		hierarchyPanel.add(CreateListItem("Inferior Lobe", 3));
-		hierarchyPanel.add(CreateListItem("Heart", 1));
-		hierarchyPanel.add(CreateListItem("Left Ventricle", 2));
-		hierarchyPanel.add(CreateListItem("Right Ventricle", 2));
-		hierarchyPanel.add(CreateListItem("Left Atrium", 2));
-		hierarchyPanel.add(CreateListItem("Right Atrium", 2));
-		hierarchyPanel.add(CreateListItem("Septum", 2));
+		setVisible(true);
+    }
 
-		mainFrame.add(hierarchyPanel);
+    private JCheckBoxTree createTree(){
+		DefaultMutableTreeNode chest = new DefaultMutableTreeNode("Chest");
+		DefaultMutableTreeNode lungs = new DefaultMutableTreeNode("Lungs");
+		DefaultMutableTreeNode rLung = new DefaultMutableTreeNode("Right Lung");
+		DefaultMutableTreeNode rsLobe = new DefaultMutableTreeNode("Superior Lobe");
+		DefaultMutableTreeNode rmLobe = new DefaultMutableTreeNode("Middle Lobe");
+		DefaultMutableTreeNode riLobe = new DefaultMutableTreeNode("Inferior Lobe");
+		DefaultMutableTreeNode lLung = new DefaultMutableTreeNode("Left Lung");
+		DefaultMutableTreeNode lsLobe = new DefaultMutableTreeNode("Superior Lobe");
+		DefaultMutableTreeNode liLobe = new DefaultMutableTreeNode("Inferior Lobe");
+		DefaultMutableTreeNode heart = new DefaultMutableTreeNode("Heart");   
+		DefaultMutableTreeNode lVentricle = new DefaultMutableTreeNode("Left Ventricle");
+		DefaultMutableTreeNode rVentricle = new DefaultMutableTreeNode("Right Ventricle");
+		DefaultMutableTreeNode lAtrium = new DefaultMutableTreeNode("Left Atrium");
+		DefaultMutableTreeNode rAtrium = new DefaultMutableTreeNode("Right Atrium");
+		DefaultMutableTreeNode septum = new DefaultMutableTreeNode("Septum");
 
-		mainFrame.setVisible(true);
+		chest.add(lungs);
+		chest.add(heart);
+		lungs.add(rLung);
+		rLung.add(rsLobe);
+		rLung.add(rmLobe);
+		rLung.add(riLobe);
+		lungs.add(lLung);
+		lLung.add(lsLobe);
+		lLung.add(liLobe);
+		heart.add(lVentricle);
+		heart.add(rVentricle);
+		heart.add(lAtrium);
+		heart.add(rAtrium);
+		heart.add(septum);
 
-	}
+		return new JCheckBoxTree(chest);
+    }
 
-	public static JPanel CreateListItem( String itemName, int numOfParents){
-		
-		JPanel container = new JPanel();
-		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
-		container.setAlignmentX(Component.LEFT_ALIGNMENT);
-		
-		for(int i = 0; i < numOfParents; i++ )
-		{
-			Component tab = Box.createRigidArea(new Dimension(20,0));
-			container.add(tab);
-		}
+} 
 
-		JCheckBox checkBox = new JCheckBox();
-		container.add(checkBox);
-
-		JLabel label = new JLabel(itemName);
-		container.add(label);
-
-		return container;
-
-	}
-
-
-
-}
